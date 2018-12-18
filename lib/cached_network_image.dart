@@ -493,7 +493,7 @@ class CachedNetworkImageProvider
       if (errorListener != null) errorListener();
       return Future<ui.Codec>.error("Couldn't download or retreive file.");
     }
-    return await _loadAsyncFromFile(key, file);
+    return await _loadAsyncFromFile(key, file).timeout(Duration(seconds: 1));
   }
 
   Future<ui.Codec> _loadAsyncFromFile(
