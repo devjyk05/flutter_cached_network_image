@@ -279,10 +279,10 @@ class _CachedNetworkImageState extends State<CachedNetworkImage>
   @override
   void deactivate() {
     try {
-      print("img pro deactivate ${widget.imageUrl} ${Scrollable.of(context).position.pixels.abs()}/ mounted${mounted}");
+      print("imgv1 pro deactivate ${widget.imageUrl} ${Scrollable.of(context).position.pixels.abs()}/ mounted${mounted}");
 
     } catch (e) {
-      print("img pro  deactivate ${widget.imageUrl} $e");
+      print("imgv1 pro  deactivate ${widget.imageUrl} $e");
     }
     super.deactivate();
   }
