@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui show instantiateImageCodec, Codec;
 
+import 'package:async/async.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
@@ -276,6 +277,17 @@ class _CachedNetworkImageState extends State<CachedNetworkImage>
   }
 
   @override
+  void deactivate() {
+    try {
+      print("img pro deactivate ${widget.imageUrl} ${Scrollable.of(context).position.pixels.abs()}/ mounted${mounted}");
+
+    } catch (e) {
+      print("img pro  deactivate ${widget.imageUrl} $e");
+    }
+    super.deactivate();
+  }
+
+  @override
   void reassemble() {
     _resolveImage(); // in case the image cache was flushed
     super.reassemble();
@@ -459,8 +471,14 @@ class CachedNetworkImageProvider
 
   @override
   ImageStreamCompleter load(CachedNetworkImageProvider key) {
+    Future _load = _loadAsync(key);
+    if (_load != null) {
+      CancelableOperation.fromFuture(_load).cancel().then((data) {
+        print("CancelableOperation ======== $data");
+      });
+    }
     return new MultiFrameImageStreamCompleter(
-        codec: _loadAsync(key),
+        codec: _load,
         scale: key.scale,
         informationCollector: (StringBuffer information) {
           information.writeln('Image provider: $this');
