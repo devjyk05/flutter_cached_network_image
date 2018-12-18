@@ -279,10 +279,10 @@ class _CachedNetworkImageState extends State<CachedNetworkImage>
   @override
   void deactivate() {
     try {
-      print("imgv1 pro deactivate ${widget.imageUrl} ${Scrollable.of(context).position.pixels.abs()}/ mounted${mounted}");
+      print("imgv2 pro deactivate ${widget.imageUrl} ${Scrollable.of(context).position.pixels.abs()}/ mounted${mounted}");
 
     } catch (e) {
-      print("imgv1 pro  deactivate ${widget.imageUrl} $e");
+      print("imgv2 pro  deactivate ${widget.imageUrl} $e");
     }
     super.deactivate();
   }
@@ -493,7 +493,7 @@ class CachedNetworkImageProvider
       if (errorListener != null) errorListener();
       return Future<ui.Codec>.error("Couldn't download or retreive file.");
     }
-    return await _loadAsyncFromFile(key, file).timeout(Duration(seconds: 1));
+    return await _loadAsyncFromFile(key, file).timeout(Duration(milliseconds: 400));
   }
 
   Future<ui.Codec> _loadAsyncFromFile(
